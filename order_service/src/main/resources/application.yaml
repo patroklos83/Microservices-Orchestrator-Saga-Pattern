@@ -1,0 +1,49 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-stacktrace: always
+  servlet.context-path: /order-service
+---
+springdoc:
+  swagger-ui:
+     enabled: true
+     layout: BaseLayout
+     operationsSorter: method
+     path: /swagger-ui.html
+  api-docs:
+     path: /api-docs
+---
+logging:
+   level:
+     root: ERROR
+     org:
+       springframework:
+         web: ERROR
+     com.patroclos: INFO
+---     
+service:
+  endpoints:
+    inventory: http://inventory:8086/inventory-service
+---
+r2dbc:
+    url: r2dbc:h2:mem://jhipster?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: jhipster
+    password:
+    name: jhipster
+---
+spring.cloud.stream:
+  kafka:
+    binder:
+      brokers: kafka:9092
+  function:
+    definition: supplier;consumer
+  bindings:
+    supplier-out-0:
+      destination: create-order
+    consumer-in-0:
+      destination: update-order
+---
+spring:
+  jpa:
+    defer-datasource-initialization: true

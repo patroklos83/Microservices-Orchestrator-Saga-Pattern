@@ -1,0 +1,30 @@
+server:
+  port: 8086
+  servlet.context-path: /inventory-service
+---
+springdoc:
+  swagger-ui:
+     enabled: true
+     layout: BaseLayout
+     operationsSorter: method
+     path: /swagger-ui.html
+  api-docs:
+     path: /api-docs
+---
+logging:
+   level:
+     root: ERROR
+     org:
+       springframework:
+         web: ERROR
+     com.patroclos: INFO
+---     
+r2dbc:
+    url: r2dbc:h2:mem://jhipster?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: jhipster
+    password:
+    name: jhipster
+---
+spring:
+  jpa:
+    defer-datasource-initialization: true

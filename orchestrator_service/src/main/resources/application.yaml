@@ -1,0 +1,58 @@
+server:
+  port: 8083
+  servlet.context-path: /orchestrator-service
+---
+springdoc:
+  swagger-ui:
+     enabled: true
+     layout: BaseLayout
+     operationsSorter: method
+     path: /swagger-ui.html
+  api-docs:
+     path: /api-docs
+---
+logging:
+   level:
+     root: ERROR
+     org:
+       springframework:
+         web: ERROR
+     reactor:
+       netty: INFO
+     com.patroclos: INFO
+     io.r2dbc.h2.QUERY: DEBUG # for queries
+     io.r2dbc.h2.PARAM: DEBUG # for parameters
+---     
+r2dbc:
+    url: r2dbc:h2:file:~/data/h2db4?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    name: orchestrator
+--- 
+spring.cloud.stream:
+  function:
+    definition: processor
+  bindings:
+    processor-in-0:
+      destination: create-order
+    processor-out-0:
+      destination: update-order
+  kafka:
+    binder:
+      replication-factor: 1
+      brokers: kafka:9092
+---
+service:
+  endpoints:
+    inventory: http://inventory:8086/inventory-service
+    payment: http://payment:8082/payment-service
+---
+spring:
+  jpa:
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings.trace: false
+      settings.web-allow-others: false

@@ -1,0 +1,89 @@
+version: '3'
+networks: 
+  network-kafka: 
+services:
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181:2181'
+    networks:
+      - network-kafka
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092:9092'
+      - '29092:29092'
+    networks:
+      - network-kafka
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=EXTERNAL_SAME_HOST://:29092,INTERNAL://:9092
+      - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL_SAME_HOST://localhost:29092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL_SAME_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+  kafka-user-interface:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-user-interface
+    ports:
+      - "8085:8080"
+    networks:
+      - network-kafka
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+      
+  orchestrator:
+    build: ./orchestrator_service/ #build from default dockerfile
+    command: ./common/mvnw clean install
+    image: orchestrator
+    privileged: true
+    user: root
+    ports:
+      - 8083:8083
+    container_name: orchestrator
+    networks:
+      - network-kafka
+    environment:
+      - server.servlet.context-path=/orchestrator-service
+      
+  order-service:
+    build: ./order_service/ #build from default dockerfile
+    image: order-service
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+    container_name: order-service
+    networks:
+      - network-kafka
+      
+  payment-service:
+    build: ./payment_service/ #build from default dockerfile
+    image: payment-service
+    privileged: true
+    user: root
+    ports:
+      - 8082:8082
+    container_name: payment-service
+    networks:
+      - network-kafka
+      
+  inventory-service:
+    build: ./inventory_service/ #build from default dockerfile
+    image: inventory-service
+    privileged: true
+    user: root
+    ports:
+      - 8086:8086
+    container_name: inventory-service
+    networks:
+      - network-kafka
+    
