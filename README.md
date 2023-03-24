@@ -21,7 +21,7 @@ For building and running the application you need:
 
 An Order Management system uses Microservices in the backed to execute and process Order requests. When an Order request is created it stays in Pending status until the payment is executed successfully and product item is deduced from inventory stock with no failures.
 
-![enter image description here](images/uml.PNG)
+![enter image description here](/images/uml.PNG)
 
 ## Running the Microservices
 
