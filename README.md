@@ -82,7 +82,7 @@ From the ***Orchestrator service console output*** a success 'Order Complete' me
 Process can be retrieved from Orchestrator Service REST API
  http://localhost:8083/orchestrator-service/swagger-ui/index.html#/
 
-![enter image description here](Images/orchestrator-swagger-complete.PNG)
+![enter image description here](/images/orchestrator-swagger-complete.PNG)
 
 ## Creating a Failed Event with Rollback
 
@@ -104,7 +104,7 @@ This will result in a failed payment debit attempt. In continuation the Order wi
 
 /order/all
 
-![enter image description here](Images/notnoughfunds.PNG)
+![enter image description here](/images/notnoughfunds.PNG)
 
 
 
