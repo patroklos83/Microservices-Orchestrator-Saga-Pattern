@@ -79,7 +79,7 @@ From the ***Orchestrator service console output*** a success 'Order Complete' me
 
 Process can be retrieved from Orchestrator Service REST API
 
-![enter image description here](https://github.com/patroklos83/Microservices-Orchestrator-Saga-Pattern/tree/main/images/orchestrator-swagger-complete.PNG)
+![enter image description here](images/orchestrator-swagger-complete.PNG)
 
 
 Fell free to grab a copy of this sample code, and play it yourself.
