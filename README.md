@@ -17,6 +17,14 @@ For building and running the application you need:
  - Microservices are built using Spring Boot 3 
  - Event-Driven design using Kafka broker and Zookeeper Docker container
 
+## Case Study
+
+An Order Management system uses Microservices in the backed to execute and process Order requests. When an Order request is created it stays in Pending status until the payment is executed successfully and product item is deduced from inventory stock with no failures.
+
+![enter image description here](images/uml.PNG)
+
+## Running the Microservices
+
 To run the microservices there are 2 options. 
 
  1. Running the whole system in Docker containers. 
