@@ -102,10 +102,10 @@ This will result in a failed payment debit attempt. In continuation the Order wi
     }
 
 
-/order/all
-
 ![enter image description here](/images/notnoughfunds.PNG)
 
+/order/all
 
+![enter image description here](/images/ordercancelled.PNG)
 
 Fell free to grab a copy of this sample code, and play it yourself.
